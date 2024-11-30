@@ -1,0 +1,1027 @@
+  <!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aquarismo Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Atlas</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <form class="d-flex me-3">
+        <input class="form-control me-2" type="search" placeholder="Buscar produtos..." aria-label="Search">
+      </form>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-lg-2">
+          <li class="nav-item">
+            <a class="nav-link" href="./Home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./produtos.html">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./sobre.html">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./contato.html">Contato</a>
+          </li>
+        </ul>
+
+        <div class="d-flex">
+          <a href="./produtos.html" class="btn btn-light me-2" onclick=";">
+            <img src="carrinho.png" alt="Carrinho" style="width: 20px; height: 20px;">
+          </a>
+          <a href="./cadastro.html" class="btn btn-light">
+            <img src="login.png" alt="Login" style="width: 20px; height: 20px;">
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Modal de Carrinho -->
+  <div id="carrinho" class="modal fade" tabindex="-1" aria-labelledby="carrinhoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carrinhoLabel">Carrinho de Compras</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="itens-carrinho"></ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continuar Comprando</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script>
+
+    // Função para adicionar produto ao carrinho
+    function adicionarAoCarrinho(produtoNome) {
+      // Previne o comportamento padrão do link
+      event.preventDefault();
+
+      // Recupera o carrinho existente ou inicializa um novo
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+      // Adiciona o produto ao carrinho
+      carrinho.push(produtoNome);
+
+      // Salva o carrinho atualizado no localStorage
+      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+      // Atualiza a exibição do artigo com os produtos no carrinho
+      atualizarArticle();
+    }
+
+    // Função para deixar o article transparente
+function deixarTransparente() {
+  const artigo = document.getElementById('artigo');
+  if (artigo) {
+    artigo.style.opacity = '0.3'; // Ajuste o valor da opacidade conforme necessário
+    artigo.style.transition = 'opacity 0.5s'; // Transição suave
+  }
+}
+
+    // Função para exibir os produtos no carrinho
+    function exibirCarrinho() {
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const carrinhoDiv = document.getElementById('itens-carrinho');
+
+      if (carrinhoDiv) {
+        carrinhoDiv.innerHTML = carrinho
+          .map(item => `<li>${item}</li>`)
+          .join('');
+      }
+    }
+
+    // Função para abrir o carrinho (modal ou página dedicada)
+    function abrirCarrinho() {
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      if (carrinho.length === 0) {
+        alert('Seu carrinho está vazio!');
+      } else {
+        alert(`Seu carrinho contém: \n${carrinho.join('\n')}`);
+      }
+    }
+
+    // Função para comprar o produto
+  function comprarProduto(produtoNome) {
+    // Gera um valor aleatório entre 1000 e 100000
+    const valorAleatorio = (Math.random() * (100000 - 1000) + 1000).toFixed(2);
+
+    // Exibe o pop-up
+    document.getElementById("popup").style.display = "block";
+
+    // Define o nome do produto e o valor no pop-up
+    document.getElementById("produtoNome").textContent = produtoNome;
+    document.getElementById("valorProduto").textContent = `R$ ${valorAleatorio}`;
+  }
+
+    // Função para atualizar o artigo com os produtos no carrinho
+    function atualizarArticle() {
+      const artigo = document.getElementById('artigo');
+      const carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+      // Monta a lista de produtos dentro do article
+      artigo.innerHTML = `
+        <h2>Produtos Comprados:</h2>
+        <ul>
+          ${carrinho.map(produto => `<li>${produto}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      atualizarArticle(); // Atualiza o artigo com os produtos no carrinho
+    });
+
+    localStorage.removeItem('carrinho');
+    // Função para mostrar o primeiro pop-up
+  function comprarProduto(produtoNome) {
+    // Gera um valor aleatório entre 1000 e 100000
+    const valorAleatorio = (Math.random() * (100000 - 1000) + 1000).toFixed(2);
+
+    // Exibe o primeiro pop-up
+    document.getElementById("popup").style.display = "block";
+
+    // Define o nome do produto e o valor no pop-up
+    document.getElementById("produtoNome").textContent = produtoNome;
+    document.getElementById("valorProduto").textContent = `R$ ${valorAleatorio}`;
+  }
+
+  // Função para fechar o primeiro pop-up
+  function fecharPopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  // Função para mostrar o segundo pop-up
+  function mostrarSegundoPopup() {
+    // Fecha o primeiro pop-up
+    fecharPopup();
+
+    // Exibe o segundo pop-up
+    document.getElementById("segundoPopup").style.display = "block";
+  }
+
+  // Função para fechar o segundo pop-up
+  function fecharSegundoPopup() {
+    document.getElementById("segundoPopup").style.display = "none";
+  }
+
+
+    // Garantir que os pop-ups não apareçam quando a página é carregada
+    window.onload = function() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("segundoPopup").style.display = "none";
+  }
+
+  // Função para mostrar o terceiro pop-up (Conta Succedia)
+function mostrarTerceiroPopup() {
+  // Fecha o segundo pop-up
+  fecharSegundoPopup();
+
+  // Exibe o terceiro pop-up
+  document.getElementById("terceiroPopup").style.display = "block";
+}
+
+// Função para fechar o terceiro pop-up
+function fecharTerceiroPopup() {
+  document.getElementById("terceiroPopup").style.display = "none";
+}
+
+// Função para mostrar o segundo pop-up (modificada para abrir o terceiro pop-up depois)
+function mostrarSegundoPopup() {
+  // Fecha o primeiro pop-up
+  fecharPopup();
+
+  // Exibe o segundo pop-up
+  document.getElementById("segundoPopup").style.display = "block";
+
+  // Após 3 segundos, abre o terceiro pop-up
+  setTimeout(mostrarTerceiroPopup, 2000);
+}
+
+
+
+    </script>
+
+
+
+
+      <!-- Hero Section -->
+      <section class="hero">
+    
+          <a href="#" class="btn">Ver Produtos</a>
+          <div class="bola"></div> <!-- Bola adicionada -->
+          <div class="bola2"></div>
+          <div class="bola3"></div>
+          <div class="bola4"></div>
+          <div class="bola5"></div>
+          <div class="bola6"></div>
+          <div class="bola7"></div>
+        </div>
+      </section>
+
+
+
+
+      <article id="artigo" style="opacity: 1; transition: opacity 1s; background-color: white; padding: 20px; margin: 20px; border: 1px solid #ccc;">
+        <h2>Produtos Comprados:</h2>
+        <ul>
+          <!-- Os itens serão adicionados dinamicamente -->
+        </ul>
+      </article>
+      
+      <!-- Botão de comprar -->
+      <button class="btn btn-primary" onclick="comprarProduto('Aquário Explosivamente bom')">Comprar</button>
+      
+    
+      <div id="popup" class="popup">
+        <div class="popup-content">
+          <span class="close" onclick="fecharPopup()">&times;</span>
+          <h3>Você comprou:  o destaque desconto de 30% <span id="produtoNome"></span></h3>
+          <br>
+          <p>Valor:<span id="valorProduto"></span></p>
+          <br><br><br><br>
+          <p>$$$$MONEY$$$$<span id="valorProduto"></span></p>
+          <!-- Botão que abre o segundo pop-up -->
+          <button class="btn btn-primary" onclick="mostrarSegundoPopup()">Confirmar Compra</button>
+        </div>
+      </div>
+
+<!-- Segundo Pop-up -->
+<div id="segundoPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="fecharSegundoPopup()">&times;</span>
+    <h3>1302 Reais tirados da sua conta</h3>
+  </div>
+</div>
+
+<!-- Terceiro Pop-up - Conta Succedia -->
+<div id="terceiroPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="fecharTerceiroPopup()">&times;</span>
+    <br>
+    <h3>Processar_compra.php</h3>
+    <br>
+    <h3>CompraSuccedia: Seu saldo atual é de R$ 0,00</h3>
+  </div>
+</div>
+
+
+
+      
+      
+      <style>
+
+        
+      </style>
+      
+      
+        <!-- Produtos em Destaque -->
+        <section class="produtos-destaque">
+          <div class="container">
+            <h2 class="titulo-produtos">Produto em Destaque 30%</h2>
+            
+            <div class="linha-produtos">
+              <!-- Produto 1 -->
+              <div class="coluna-produto">
+                <div class="produto-item">
+                  <img class="img" src="./p.jpeg" alt="Carrinho">
+                    <h3 class="nome-produto">Aquário Explosivamente bom</h3>
+                    <p class="descricao-produto"></p>
+                    <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('Aquário Explosivamente bom')">Comprar</a>
+                </div>
+              </div>
+            </div>
+          </div> 
+        </section>
+      
+        <!-- Seção de Compras -->
+        <section class="seção-compras">
+          <div class="container">
+            <h2 class="titulo-produtos">Todos os Produtos</h2>
+            <div class="linha-produtos">
+              <!-- Produto 1 -->
+              <div class="coluna-produto2">
+                <div class="produto-item">
+                  <img src="pe.jpeg" alt="Produto 1">
+                  <h3 class="nome-produto">Aquario 300x660mc2</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('Aquário 300x660mc2')">Comprar</a>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+      
+        <article class="test">
+          <div class="coluna-produto3">
+            <div class="produto-item">
+              <img src="pei.jpg" alt="Produto 1">
+                  <h3 class="nome-produto">300x400mc2</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('Aquário calibre .50')">Comprar</a>
+            </div>
+          </div>
+      
+        </article>
+        <article class="test">
+          <div class="coluna-produto4">
+            <div class="produto-item">
+              <img src="peix.avif" alt="Produto 1">
+                  <h3 class="nome-produto">aquario calibre .50</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('aquario calibre .50')">Comprar</a>
+            </div>
+          </div>
+      
+      
+        </article>
+        <article class="test">
+          <div class="coluna-produto5">
+            <div class="produto-item">
+              <img src="peixe.jpg" alt="Produto 1">
+                  <h3 class="nome-produto">90x 300x200x200mc2</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('90x 300x200x200mc2')">Comprar</a>
+            </div>
+          </div>
+      
+        </article> 
+      
+        <article class="test">
+          <div class="coluna-produto6">
+            <div class="produto-item">
+              <img src="peixep.jpeg" alt="Produto 1">
+                  <h3 class="nome-produto">aquario relativamente bom</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('aquario relativamente bom')">Comprar</a>
+            </div>
+          </div>
+      
+        </article>
+      
+        <article class="test">
+          <div class="coluna-produto7">
+            <div class="produto-item">
+              <img src="peixepe.jpg" alt="Produto 1">
+                  <h3 class="nome-produto">aquario .45mml</h3>
+                  <p class="descricao-produto"></p>
+                  <a href="#" class="botao-comprar" onclick="adicionarAoCarrinho('aquario .45mml')">Comprar</a>
+            </div>
+          </div>
+      
+        </article>
+      
+        <article class="texto">
+        
+                  <h3 class="nome-produto">Tudo de melhor só o melhor para você</h3>
+                  
+            </div>
+          </div>
+        </article>
+      
+        <!-- Modal de Confirmação -->
+      <div class="modal fade" id="carrinhoModal" tabindex="-1" aria-labelledby="carrinhoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="carrinhoModalLabel">Produto adicionado</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Produto foi adicionado ao carrinho! (Este é apenas um aviso, o produto não foi realmente adicionado)
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  <script>
+
+  </script>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2024 Aquarismo Shop. Todos os direitos reservados.</p>
+    </footer>
+
+
+    <style>
+      
+    .botao-comprar18{
+        background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-left: 80px;
+
+      }
+
+  .produto-nome{
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+  .botao-comprar {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none; /* Remove o sublinhado do link */
+      
+    }
+
+    .botao-comprar:hover {
+      background-color: #0056b3;
+    }
+
+
+  .produto {
+      background-color: white;
+      border: 10px solid #bebebe; 
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+      width: 300px;
+    }
+
+    /* Restante dos estilos */
+
+    .popup {
+      display: none; /* Inicialmente invisível */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: linear-gradient(to bottom, #1e3c72, #2a5298); /* Degradê do azul claro para o azul escuro */
+      padding: 20px;
+      border-radius: 8px;
+      color: white; /* Cor do texto */
+      text-align: center;
+    }
+
+    .popup .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+
+  .btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  .btn:hover {
+    background-color: #0056b3;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+    /* Estilo geral */
+    body {
+      background-color: #0067ee; /* Fundo de toda a página */
+      font-family: Arial, sans-serif; /* Fonte padrão */
+      margin: 0;
+    }
+
+    .texto{
+      width: 270px;
+      height: 600px;
+      font-size: 42px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      margin-left: 180px;
+      margin-top: -600px;
+      font-style: italic;
+    }
+
+    .produto-item2 {
+      background-color: white;
+      border: 10px solid #bebebe; 
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+      width: 300px;
+      
+    }
+
+    .coluna-produto3 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 870px;
+      margin-top: -960px;
+    }
+
+
+
+
+    .coluna-produto4 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 1164px;
+      margin-top: -400px;
+    }
+
+
+
+
+    .coluna-produto5 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 540px;
+      margin-top:80px;
+    }
+
+
+    /* Terceiro Pop-up - Conta Succedia */
+#terceiroPopup {
+  display: none; /* Inicialmente invisível */
+}
+
+.popup-content h3 {
+  color: #fff;
+  font-size: 18px;
+}
+
+.popup .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+
+
+
+    .coluna-produto6 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 870px;
+      margin-top: -425px;
+    }
+
+
+
+
+    .coluna-produto7 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 1163px;
+      margin-top: -339px;
+    }
+
+
+
+    .coluna-produto8 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+      margin-left: 850px;
+      margin-top: -660px;
+    }
+
+    /* Contêiner central */
+    .container {
+      width: 80%;
+      margin: 0 auto; /* Centraliza o contêiner */
+    }
+
+    /* Estilo da seção de produtos em destaque */
+    .produtos-destaque {
+      margin-top: 150px;
+      background-color: #f0f4ff; /* Fundo suave para os produtos em destaque */
+      padding: 20px 0;
+      width: 800px;
+      box-shadow: 0px 4px 9px;
+      border-radius: 2px;
+      margin-left: 360px;
+    }
+
+    .titulo-produtos {
+      font-size: 4em;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .linha-produtos {
+      display: flex; /* Alinha produtos em linha */
+      justify-content: center; /* Centraliza os produtos */
+      flex-wrap: wrap; /* Permite quebra de linha se necessário */
+    }
+
+    .coluna-produto {
+      margin-left: 120px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+    }
+
+    .coluna-produto2 {
+      margin-left: 0px;
+      width: 900px; /* Largura de cada produto */
+      padding: 20px; /* Espaçamento interno */
+    }
+
+
+    .produto-item {
+      background-color: white;
+      border: 10px solid #bebebe; 
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+      width: 300px;
+    }
+
+    .produto-item:hover {
+      transform: scale(1.05); /* Efeito de zoom ao passar o mouse */
+    }
+
+    .produto-item img {
+      max-width: 100%; /* A imagem ocupa a largura máxima do item */
+      height: auto; /* Mantém a proporção da imagem */
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+
+    .nome-produto {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .descricao-produto {
+      font-size: 1em;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    .botao-comprar {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none; /* Remove o sublinhado do link */
+    }
+
+    .botao-comprar:hover {
+      background-color: #0056b3;
+    }
+
+    /* Estilo da seção de compras */
+    .seção-compras {
+      background-color: #ffffff; /* Cor de fundo clara para a seção de compras */
+      padding: 40px 0;
+      margin-top: 400px; /* Aumenta o espaçamento entre as seções */
+      height: 1000px;
+    }
+
+    /* Estilo específico para a imagem do carrinho */
+    .img {
+      width: 250px; /* Define a largura da imagem do carrinho */
+      display: block; /* Garante que a imagem fique em linha */
+      margin: 0 auto; /* Centraliza a imagem na coluna */
+    }
+
+
+
+      
+
+      .bola {
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: -10px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 1.8s ease-in-out infinite; /* Chamando a animação */
+    }
+    .bola2 {
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -150px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 280px; /* Distância da esquerda */
+        width: 250px; /* Tamanho inicial */
+        height: 250px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 2s ease-in-out infinite; /* Chamando a animação */
+    }
+    .bola3 {
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 500px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 1.6s ease-in-out infinite; /* Chamando a animação */
+    }
+    .bola4 {
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 700px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 1.9s ease-in-out infinite; /* Chamando a animação */
+        
+    }
+    .bola5{
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 900px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 1.5s ease-in-out infinite; /* Chamando a animação */
+    }
+    .bola6{
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 1100px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 2s ease-in-out infinite; /* Chamando a animação */
+    }
+    .bola7{
+        position: absolute; /* Garante que a bola fique em posição relativa à seção hero */
+        bottom: -200px; /* Move a bola para baixo, de modo que a metade superior fique visível */
+        left: 1300px; /* Distância da esquerda */
+        width: 300px; /* Tamanho inicial */
+        height: 300px; /* Dobrou a altura para que a bola fique visível pela metade */
+        background-color: #0067ee; /* Cor da bola */
+        border-radius: 50%; /* Para torná-la redonda */
+        animation: pulso 1.7s ease-in-out infinite; /* Chamando a animação */
+    }
+
+    .fundodotextoinicio {
+        background-color: #6f767e;
+        position: relative; /* Garante que você possa usar transformações */
+        transform: translateX(0px); /* Movendo o elemento 200px para a direita */
+        width: 19030px;
+        height: 500px;
+        border-radius: 9px;
+        text-align: center; /* Centraliza o texto */
+        padding: 20px; /* Adiciona um padding para espaçamento */
+    }
+
+    .produtos {
+        width: 1583px;
+        height: 3000px;
+        padding: 40px 0;
+        background-color: #f0f4ff; /* Cor de fundo suave */
+    }
+
+    .produtos h2 {
+        font-size: 200em;
+        text-align: center; /* Centraliza o título */
+        margin-bottom: 20px;
+        margin-left: 300px;
+        margin-top: -300px;
+    }
+
+    .produtos p {
+        font-size: 1.1em;
+        line-height: 1.6; /* Aumenta o espaçamento entre linhas */
+        margin: 10px 0; /* Margem entre os parágrafos */
+        text-align: center; /* Centraliza o texto */
+        max-width: 800px; /* Limita a largura do texto */
+        margin-left: auto; /* Centraliza o texto horizontalmente */
+        margin-top: 180px;
+    }
+
+        @keyframes pulso {
+            0%, 100% {
+                transform: scale(1); /* Tamanho normal */
+            }
+            50% {
+                transform: scale(1.2); /* Aumenta o tamanho */
+            }
+        }
+
+        /* Global Styles */
+        .navbar-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: px;
+            height: 40px;
+        }
+
+        .btn-icon img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-icon:hover {
+            background-color: #f8f9fa;
+        }
+
+        body, h1, h2, p, a {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+      
+        /* Navbar */
+        .navbar {
+            background-color: #000000d5;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+        font-size: 2.5em; /* Aumenta o tamanho da marca */
+        font-weight: bold;
+        color: white;
+    }
+
+        .navbar-nav {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-nav li a {
+            color: #ffffff;
+        }
+
+        .navbar-nav li a:hover {
+            color: #007bff;
+        }
+
+        /* Hero Section */
+        .hero {
+        background-color: #ddedfd;
+        color: rgb(2, 2, 2);
+        text-align: center;
+        padding: 60px 20px;
+        position: relative; /* Mantém a posição relativa */
+        overflow: hidden; /* Oculta a parte da bola que sai da seção */
+        height: 200px;
+    }
+
+        .hero h1 {
+            font-size: 2.5em;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        .hero .btn {
+            background-color: white;
+            color: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        .hero .btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Produtos Section */
+        .produtos {
+            padding: 4px 0;
+            background-color: #0067ee;
+        }
+
+        .produtos h2 {
+            font-size: 2em;
+        }
+
+        .produtos-lista {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 200px;
+        }
+
+        .produto-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .produto-item img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .produto-item h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .produto-item p {
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .produto-item .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+
+        .produto-item .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 1000px;
+        }
+        </style>
+    </body>
+    </html>
+
+    

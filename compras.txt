@@ -1,0 +1,2 @@
+[2024-11-29 14:00:00] Produto: Aquário Explosivamente bom | Valor: 13456
+[2024-11-29 14:05:00] Produto: Aquário 300x660mc2 | Valor: 10500

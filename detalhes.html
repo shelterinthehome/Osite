@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Produto</title>
+</head>
+<body>
+  <h1 id="produto-detalhes"></h1>
+
+  <script>
+    // Função para obter o valor de um parâmetro na URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // Obtém o nome do produto a partir da URL
+    const produtoNome = getQueryParam('produto');
+
+    // Exibe o nome do produto na página
+    document.getElementById('produto-detalhes').textContent = produtoNome || 'Produto não encontrado';
+  </script>
+
+  <style>
+    .produto-detalhes{
+        margin-top: 1000px;
+    }
+
+    
+    h1#produto-detalhes {
+      position: relative;
+      margin-left: 600px; /* Aumentado para mover mais para a direita */
+      margin-top: 100px;
+    }
+  </style>
+    </style>
+</body>
+</html>

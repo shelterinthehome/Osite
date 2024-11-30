@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .seção-compras {
+      margin: 20px;
+    }
+    .produto-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+      text-align: center;
+    }
+    .botao-comprar, .botao-lista {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .botao-comprar:hover, .botao-lista:hover {
+      background-color: #0056b3;
+    }
+    .lista-compras {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+  </style>
+  <title>Lista de Compras</title>
+</head>
+<body>
+
+  <!-- Seção de Compras -->
+  <section class="seção-compras">
+    <h2 class="titulo-produtos">Todos os Produtos</h2>
+    <div class="linha-produtos">
+      <!-- Produto 1 -->
+      <div class="coluna-produto2">
+        <div class="produto-item">
+          <img src="pe.jpeg" alt="Produto 1" width="150">
+          <h3 id="nome-produto1">Aquário 300x660mc2</h3>
+          <button class="botao-comprar" onclick="comprar('Aquário 300x660mc2')">Comprar</button>
+        </div>
+      </div>
+      <!-- Produto 2 -->
+      <div class="coluna-produto2">
+        <div class="produto-item">
+          <img src="pe2.jpeg" alt="Produto 2" width="150">
+          <h3 id="nome-produto2">Filtro Biológico</h3>
+          <button class="botao-comprar" onclick="comprar('Filtro Biológico')">Comprar</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="botao-lista" onclick="exibirLista()">Lista</button>
+    <div id="lista-compras" class="lista-compras" style="display: none;">
+      <h3>Itens na Lista de Compras:</h3>
+      <ul id="itens-lista"></ul>
+    </div>
+  </section>
+
+  <script>
+    // Array para armazenar os itens comprados
+    const listaCompras = [];
+
+    // Função para adicionar o produto à lista
+    function comprar(produto) {
+      listaCompras.push(produto);
+
+    }
+
+    // Função para exibir a lista de compras
+    function exibirLista() {
+      const lista = document.getElementById('itens-lista');
+      lista.innerHTML = ''; // Limpa a lista antes de adicionar os itens
+      listaCompras.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        lista.appendChild(li);
+      });
+
+      const listaDiv = document.getElementById('lista-compras');
+      listaDiv.style.display = 'block'; // Mostra a lista
+    }
+  </script>
+
+</body>
+</html>

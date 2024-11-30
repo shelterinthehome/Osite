@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja de Aquarismo</title>
+</head>
+<body>
+
+    <div class="produto">
+        <h1 id="produto-nome">Aquário Explosivamente bom</h1>
+        <button onclick="comprar()">Comprar</button>
+      </div>
+    
+  
+
+  <script>
+    function comprar() {
+      // Captura o texto do elemento <h1>
+      const produtoNome = document.getElementById('produto-nome').textContent;
+
+      // Redireciona para a página de destino com o nome do produto na URL
+      window.location.href = `detalhes.html?produto=${encodeURIComponent(produtoNome)}`;
+    }
+  </script>
+</body>
+</html>
